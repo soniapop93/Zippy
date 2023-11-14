@@ -1,6 +1,8 @@
 package ZipAndUnzip;
 
 import java.io.*;
+import java.nio.file.Path;
+import java.nio.file.Paths;
 import java.util.zip.ZipEntry;
 import java.util.zip.ZipOutputStream;
 
@@ -8,9 +10,13 @@ public class Zip {
     public void zipFile(String filePath) {
         File file = new File(filePath);
         FileOutputStream fileOutputStream = null;
-        try {
-            fileOutputStream = new FileOutputStream("test.zip");
 
+        Pair pairFile = getFileName(filePath);
+
+        String fileNameZip = pairFile.getItem1() + "\\" + pairFile.getItem2() + ".zip";
+
+        try {
+            fileOutputStream = new FileOutputStream(fileNameZip);
             ZipOutputStream zipOutputStream = new ZipOutputStream(fileOutputStream);
 
             FileInputStream fileInputStream = new FileInputStream(file);
@@ -27,10 +33,18 @@ public class Zip {
             fileInputStream.close();
             fileOutputStream.close();
 
+            System.out.println("Zip file created successfully");
+
         } catch (Exception e) {
             e.printStackTrace();
         }
-
     }
 
+    private Pair getFileName(String filePath) {
+        Path path = Paths.get(filePath);
+        String fileName = path.getFileName().toString().split(".", 1)[0];
+        String pathOfFile = path.getParent().toString();
+
+        return new Pair(pathOfFile, fileName);
+    }
 }

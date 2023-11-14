@@ -1,9 +1,12 @@
 package Logic;
 
+import ZipAndUnzip.Zip;
+
 import java.util.Scanner;
 
 public class ZippyLogic {
     Scanner scanner = new Scanner(System.in);
+    Zip zip = new Zip();
     String[] options = new String[] {"1. Zip file", "2. Unzip file", "3. Zip Directory", "4. Unzip Directory", "5. Exit"};
 
     public void zippy() {
@@ -22,6 +25,13 @@ public class ZippyLogic {
                     break;
                 case "1": // 1. Zip file
                     System.out.println(">> Option selected: " + options[0]);
+
+                    String path = getPathFromInput();
+
+                    if (path != null) {
+                        zip.zipFile(path);
+                    }
+
                     break;
                 case "2": // 2. Unzip file
                     System.out.println(">> Option selected: " + options[1]);
@@ -54,6 +64,16 @@ public class ZippyLogic {
         for (String item : options) {
             System.out.println("--> " + item);
         }
+    }
+
+    private String getPathFromInput() {
+        System.out.print("Add path of the file you want to zip: ");
+        String path = scanner.nextLine();
+
+        if (path != null) {
+            return path;
+        }
+        return null;
     }
 
 
