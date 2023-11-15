@@ -3,6 +3,7 @@ package ZipAndUnzip;
 import java.io.*;
 import java.nio.file.Path;
 import java.nio.file.Paths;
+import java.util.ArrayList;
 import java.util.zip.ZipEntry;
 import java.util.zip.ZipOutputStream;
 
@@ -37,6 +38,12 @@ public class Zip {
 
         } catch (Exception e) {
             e.printStackTrace();
+        }
+    }
+
+    public void zipFiles(ArrayList<String> filePaths) {
+        for (int i = 0; i < filePaths.size(); i++) {
+            zipFile(filePaths.get(i));
         }
     }
 
