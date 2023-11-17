@@ -2,6 +2,7 @@ package ZipAndUnzip;
 
 import java.io.File;
 import java.io.FileInputStream;
+import java.io.FileOutputStream;
 import java.util.zip.ZipEntry;
 import java.util.zip.ZipInputStream;
 
@@ -17,7 +18,19 @@ public class Unzip {
 
             while (zipEntry != null) {
                 File newFile = newFile(destinationDirectory, zipEntry);
-                //todo: implement it
+
+                if (!zipEntry.isDirectory()) {
+
+                    File parentFile = newFile.getParentFile();
+                    FileOutputStream fileOutputStream = new FileOutputStream(newFile);
+                    int len;
+
+                    while ((len = zipInputStream.read(buffer)) > 0) {
+                        fileOutputStream.write(buffer, 0, len);
+                    }
+                    fileOutputStream.close();
+                }
+                zipEntry = zipInputStream.getNextEntry();
             }
 
         } catch (Exception e) {

@@ -1,5 +1,6 @@
 package Logic;
 
+import ZipAndUnzip.Unzip;
 import ZipAndUnzip.Zip;
 
 import java.util.ArrayList;
@@ -8,6 +9,7 @@ import java.util.Scanner;
 public class ZippyLogic {
     Scanner scanner = new Scanner(System.in);
     Zip zip = new Zip();
+    Unzip unzip = new Unzip();
     String[] options = new String[] {"1. Zip file", "2. Zip multiple files", "3. Unzip file", "4. Zip Directory", "5. Unzip Directory", "6. Exit"};
 
     public void zippy() {
@@ -27,10 +29,10 @@ public class ZippyLogic {
                 case "1": // 1. Zip file
                     System.out.println(">> Option selected: " + options[0]);
 
-                    String path = getPathFromInput();
+                    String pathZip = getPathFromInput("Add path of the file you want to zip: ");
 
-                    if (path != null) {
-                        zip.zipFile(path);
+                    if (pathZip != null) {
+                        zip.zipFile(pathZip);
                     }
 
                     break;
@@ -43,6 +45,14 @@ public class ZippyLogic {
                     break;
                 case "3": // 3. Unzip file
                     System.out.println(">> Option selected: " + options[2]);
+
+                    String pathUnzip = getPathFromInput("Add path of the file you want to unzip: ");
+                    String pathDestination = getPathFromInput("Add path where you want to unzip: ");
+
+                    if (pathUnzip != null && pathDestination != null) {
+                        unzip.unzipFile(pathUnzip, pathDestination);
+
+                    }
 
                     break;
                 case "4": // 4. Zip Directory
@@ -75,8 +85,8 @@ public class ZippyLogic {
         }
     }
 
-    private String getPathFromInput() {
-        System.out.print("Add path of the file you want to zip: ");
+    private String getPathFromInput(String text) {
+        System.out.print(text);
         String path = scanner.nextLine();
 
         if (path != null) {
@@ -90,7 +100,7 @@ public class ZippyLogic {
         boolean getPaths = true;
 
         while (getPaths) {
-            String path = getPathFromInput();
+            String path = getPathFromInput("Add path of the file you want to zip: ");
             paths.add(path);
 
             System.out.println("Do you want to add another path? \n1. Yes\n2. No");
