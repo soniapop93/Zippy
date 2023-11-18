@@ -38,6 +38,16 @@ public class Unzip {
         }
     }
 
+    public void unzipDirectory(String filePath, String destinationPath) {
+        Path destinationDir = new Path(destinationPath);
+        ZipInputStream zipInputStream = new ZipInputStream(new FileInputStream(filePath));
+
+        ZipEntry zipEntry = zipInputStream.getNextEntry();
+
+        if (zipEntry != null) {
+            // todo: finish it
+        }
+    }
     private File newFile(File destinationDirectory, ZipEntry zipEntry) {
         File destinationFile = new File (destinationDirectory, zipEntry.getName());
 

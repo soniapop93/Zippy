@@ -54,4 +54,12 @@ public class Zip {
 
         return new Pair(pathOfFile, fileName);
     }
+
+    private void createDirectory(String path) {
+        File dir = new File(path);
+
+        if (!dir.exists()) {
+            dir.mkdirs();
+        }
+    }
 }

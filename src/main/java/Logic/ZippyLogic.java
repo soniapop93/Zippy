@@ -42,6 +42,8 @@ public class ZippyLogic {
 
                     ArrayList<String> filesPaths = getPathsFromInput();
 
+                    zip.zipFiles(filesPaths);
+
                     break;
                 case "3": // 3. Unzip file
                     System.out.println(">> Option selected: " + options[2]);
