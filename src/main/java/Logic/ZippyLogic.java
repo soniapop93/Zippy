@@ -62,6 +62,13 @@ public class ZippyLogic {
                     break;
                 case "5": // 5. Unzip Directory
                     System.out.println(">> Option selected: " + options[4]);
+
+                    String pathUnzipDir = getPathFromInput("Add path of the folder you want to unzip: ");
+                    String pathUnzipDestination = getPathFromInput("Add path where you want to unzip: ");
+
+                    if (pathUnzipDir != null && pathUnzipDestination != null) {
+                        unzip.unzipDirectory(pathUnzipDir, pathUnzipDestination);
+                    }
                     break;
                 case "6": // 6. Exit
                     System.out.println(">> Option selected: " + options[5]);

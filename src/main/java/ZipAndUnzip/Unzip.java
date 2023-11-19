@@ -19,16 +19,24 @@ public class Unzip {
             while (zipEntry != null) {
                 File newFile = newFile(destinationDirectory, zipEntry);
 
-                if (!zipEntry.isDirectory()) {
-
+                if (zipEntry.isDirectory()) {
+                    if (!newFile.isDirectory() && !newFile.mkdirs()) {
+                        System.out.println("ERROR -> Could not create directory");
+                    }
+                }
+                else {
                     File parentFile = newFile.getParentFile();
+
+                    if (!parentFile.isDirectory() && !parentFile.mkdirs()) {
+                        System.out.println("ERROR 2 -> Could not create directory");
+                    }
                     FileOutputStream fileOutputStream = new FileOutputStream(newFile);
                     int len;
-
                     while ((len = zipInputStream.read(buffer)) > 0) {
                         fileOutputStream.write(buffer, 0, len);
                     }
                     fileOutputStream.close();
+
                 }
                 zipEntry = zipInputStream.getNextEntry();
             }
@@ -39,29 +47,11 @@ public class Unzip {
     }
 
     public void unzipDirectory(String filePath, String destinationPath) {
-        Path destinationDir = new Path(destinationPath);
-        ZipInputStream zipInputStream = new ZipInputStream(new FileInputStream(filePath));
-
-        ZipEntry zipEntry = zipInputStream.getNextEntry();
-
-        if (zipEntry != null) {
-            // todo: finish it
-        }
+        unzipFile(filePath, destinationPath);
     }
     private File newFile(File destinationDirectory, ZipEntry zipEntry) {
         File destinationFile = new File (destinationDirectory, zipEntry.getName());
 
-        try {
-            String destinationDirectoryPath = destinationDirectory.getCanonicalPath();
-            String destinatioFilePath = destinationFile.getCanonicalPath();
-
-            if (destinatioFilePath.startsWith(destinationDirectoryPath + File.separator)) {
-                return destinationFile;
-            }
-
-        } catch (Exception e) {
-            e.printStackTrace();
-        }
-        return null;
+        return destinationFile;
     }
 }
