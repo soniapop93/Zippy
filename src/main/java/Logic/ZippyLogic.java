@@ -59,7 +59,15 @@ public class ZippyLogic {
                     break;
                 case "4": // 4. Zip Directory
                     System.out.println(">> Option selected: " + options[3]);
+
+                    String pathZipDir = getPathFromInput("Add path of the directory you want to zip: ");
+
+                    if (pathZipDir != null) {
+                        zip.zipDirectory(pathZipDir);
+                    }
+
                     break;
+
                 case "5": // 5. Unzip Directory
                     System.out.println(">> Option selected: " + options[4]);
 

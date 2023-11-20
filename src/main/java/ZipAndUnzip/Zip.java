@@ -47,6 +47,24 @@ public class Zip {
         }
     }
 
+    public void zipDirectory(String directoryPath) {
+        Path pathDir = Paths.get(directoryPath);
+        FileOutputStream fileOutputStream = null;
+        try {
+            fileOutputStream = new FileOutputStream((pathDir.getFileName()).toString() + ".zip");
+            ZipOutputStream zipOutputStream = new ZipOutputStream(fileOutputStream);
+            File fileZip = new File(directoryPath);
+            zipFile(fileZip.getAbsolutePath());
+            zipOutputStream.close();
+            fileOutputStream.close();
+
+        } catch (Exception e) {
+            e.printStackTrace();
+        }
+
+
+    }
+
     private Pair getFileName(String filePath) {
         Path path = Paths.get(filePath);
         String fileName = path.getFileName().toString().split(".", 1)[0];
