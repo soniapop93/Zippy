@@ -31,9 +31,10 @@ public class Unzip {
                         System.out.println("ERROR 2 -> Could not create directory");
                     }
                     FileOutputStream fileOutputStream = new FileOutputStream(newFile);
-                    int len;
-                    while ((len = zipInputStream.read(buffer)) > 0) {
+                    int len = zipInputStream.read(buffer);
+                    while (len > 0) {
                         fileOutputStream.write(buffer, 0, len);
+                        len = zipInputStream.read(buffer);
                     }
                     fileOutputStream.close();
 

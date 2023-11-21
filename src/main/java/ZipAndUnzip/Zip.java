@@ -25,9 +25,10 @@ public class Zip {
             zipOutputStream.putNextEntry(zipEntry);
 
             byte[] bytes = new byte[1024];
-            int length;
-            while ((length = fileInputStream.read(bytes)) >= 0) {
-                zipOutputStream.write(bytes, 0, length);
+            int len = fileInputStream.read(bytes);
+            while (len >= 0) {
+                zipOutputStream.write(bytes, 0, len);
+                len = fileInputStream.read(bytes);
             }
 
             zipOutputStream.close();
@@ -54,15 +55,13 @@ public class Zip {
             fileOutputStream = new FileOutputStream((pathDir.getFileName()).toString() + ".zip");
             ZipOutputStream zipOutputStream = new ZipOutputStream(fileOutputStream);
             File fileZip = new File(directoryPath);
-            zipFile(fileZip.getAbsolutePath());
+            zipDirFile(fileZip, fileZip.getName(), zipOutputStream);
             zipOutputStream.close();
             fileOutputStream.close();
 
         } catch (Exception e) {
             e.printStackTrace();
         }
-
-
     }
 
     private Pair getFileName(String filePath) {
@@ -73,11 +72,54 @@ public class Zip {
         return new Pair(pathOfFile, fileName);
     }
 
-    private void createDirectory(String path) {
-        File dir = new File(path);
+    private void zipDirFile(File fileToZip, String fileName, ZipOutputStream zipOutputStream) {
+        if (fileToZip.isHidden()) {
+            return;
+        }
+        if (fileToZip.isDirectory()) {
+            if (fileName.endsWith("/")) {
+                try {
+                    zipOutputStream.putNextEntry(new ZipEntry(fileName));
+                    zipOutputStream.closeEntry();
+                } catch (Exception e) {
+                    e.printStackTrace();
+                }
+            }
+            else {
+                try {
+                    zipOutputStream.putNextEntry(new ZipEntry(fileName + "/"));
+                    zipOutputStream.closeEntry();
 
-        if (!dir.exists()) {
-            dir.mkdirs();
+                } catch (Exception e) {
+                    e.printStackTrace();
+                }
+            }
+
+            File[] files = fileToZip.listFiles();
+
+            for (File file : files) {
+                zipDirFile(file, fileName + "/" + file.getName(), zipOutputStream);
+            }
+            return;
+        }
+
+        FileInputStream fileInputStream = null;
+
+        try {
+            fileInputStream = new FileInputStream(fileToZip);
+
+            ZipEntry zipEntry = new ZipEntry(fileName);
+            zipOutputStream.putNextEntry(zipEntry);
+            byte[] bytes = new byte[1024];
+
+            int len = fileInputStream.read(bytes);
+            while (len >= 0) {
+                zipOutputStream.write(bytes, 0, len);
+                len = fileInputStream.read(bytes);
+            }
+
+        } catch (Exception e) {
+            e.printStackTrace();
         }
     }
 }
