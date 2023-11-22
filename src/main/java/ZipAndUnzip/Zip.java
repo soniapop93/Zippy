@@ -10,14 +10,13 @@ import java.util.zip.ZipOutputStream;
 public class Zip {
     public void zipFile(String filePath) {
         File file = new File(filePath);
-        FileOutputStream fileOutputStream = null;
 
         Pair pairFile = getFileName(filePath);
 
         String fileNameZip = pairFile.getItem1() + "\\" + pairFile.getItem2() + ".zip";
 
         try {
-            fileOutputStream = new FileOutputStream(fileNameZip);
+            FileOutputStream fileOutputStream = new FileOutputStream(fileNameZip);
             ZipOutputStream zipOutputStream = new ZipOutputStream(fileOutputStream);
 
             FileInputStream fileInputStream = new FileInputStream(file);
@@ -25,7 +24,9 @@ public class Zip {
             zipOutputStream.putNextEntry(zipEntry);
 
             byte[] bytes = new byte[1024];
+
             int len = fileInputStream.read(bytes);
+
             while (len >= 0) {
                 zipOutputStream.write(bytes, 0, len);
                 len = fileInputStream.read(bytes);
@@ -50,9 +51,9 @@ public class Zip {
 
     public void zipDirectory(String directoryPath) {
         Path pathDir = Paths.get(directoryPath);
-        FileOutputStream fileOutputStream = null;
+
         try {
-            fileOutputStream = new FileOutputStream((pathDir.getFileName()).toString() + ".zip");
+            FileOutputStream fileOutputStream = new FileOutputStream((pathDir.getParent() + "\\" + pathDir.getFileName()).toString() + ".zip");
             ZipOutputStream zipOutputStream = new ZipOutputStream(fileOutputStream);
             File fileZip = new File(directoryPath);
             zipDirFile(fileZip, fileZip.getName(), zipOutputStream);
@@ -98,7 +99,7 @@ public class Zip {
             File[] files = fileToZip.listFiles();
 
             for (File file : files) {
-                zipDirFile(file, fileName + "/" + file.getName(), zipOutputStream);
+                zipDirFile(file, fileName + "\\" + file.getName(), zipOutputStream);
             }
             return;
         }
