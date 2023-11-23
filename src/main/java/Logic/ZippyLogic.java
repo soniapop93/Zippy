@@ -10,7 +10,13 @@ public class ZippyLogic {
     Scanner scanner = new Scanner(System.in);
     Zip zip = new Zip();
     Unzip unzip = new Unzip();
-    String[] options = new String[] {"1. Zip file", "2. Zip multiple files", "3. Unzip file", "4. Zip Directory", "5. Unzip Directory", "6. Exit"};
+    String[] options = new String[] {
+            "1. Zip file",
+            "2. Zip multiple files",
+            "3. Unzip file",
+            "4. Zip Directory",
+            "5. Unzip Directory",
+            "6. Exit"};
 
     public void zippy() {
         String inputOption;
@@ -53,7 +59,6 @@ public class ZippyLogic {
 
                     if (pathUnzip != null && pathDestination != null) {
                         unzip.unzipFile(pathUnzip, pathDestination);
-
                     }
 
                     break;
@@ -82,10 +87,7 @@ public class ZippyLogic {
                     System.out.println(">> Option selected: " + options[5]);
                     return;
             }
-
-
         }
-
     }
 
     private void welcomeMessage() {
@@ -133,7 +135,4 @@ public class ZippyLogic {
         }
         return paths;
     }
-
-
-
 }
